@@ -1,0 +1,6 @@
+flask
+pandas
+twilio
+apscheduler
+openpyxl
+pywhatkit
