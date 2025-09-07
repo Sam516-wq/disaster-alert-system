@@ -1,39 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Disaster Alert System</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-    textarea { width: 60%; height: 80px; font-size: 16px; padding: 10px; }
-    button { margin-top: 15px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
-    p { font-weight: bold; margin-top: 20px; }
-  </style>
+    <title>Disaster Alert System</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        input, button { padding: 10px; margin: 5px 0; width: 300px; }
+    </style>
 </head>
 <body>
-  <h2>🚨 Disaster Alert System 🚨</h2>
-  <textarea id="message" placeholder="Enter your disaster alert message here..."></textarea><br>
-  <button onclick="sendAlert()">Send Alert</button>
-  <p id="response"></p>
+    <h1>Disaster Alert System</h1>
+    <textarea id="message" rows="4" placeholder="Enter alert message"></textarea><br>
+    <button onclick="sendAlert()">Send Alert</button>
 
-  <script>
-    function sendAlert() {
-      let msg = document.getElementById("message").value;
-
-      fetch("/send_alert", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("response").innerText = data.message;
-      })
-      .catch(err => {
-        console.error(err);
-        document.getElementById("response").innerText = "❌ Failed to send alert!";
-      });
-    }
-  </script>
+    <script>
+        async function sendAlert() {
+            const message = document.getElementById("message").value;
+            const res = await fetch('/send_alert', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message})
+            });
+            const data = await res.json();
+            alert(data.message);
+        }
+    </script>
 </body>
 </html>
