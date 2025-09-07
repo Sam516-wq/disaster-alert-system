@@ -1,6 +1,6 @@
-flask
+Flask
 pandas
-twilio
-apscheduler
 openpyxl
 pywhatkit
+requests
+gunicorn

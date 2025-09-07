@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Disaster Alert System</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f9f9f9; text-align: center; }
-        .container { margin: 50px auto; padding: 20px; width: 400px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
-        textarea { width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
-        button { margin-top: 15px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; }
-        button:hover { background: #0056b3; }
-        .status { margin-top: 20px; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Disaster Alert System</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    textarea { width: 60%; height: 80px; font-size: 16px; padding: 10px; }
+    button { margin-top: 15px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    p { font-weight: bold; margin-top: 20px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>⚠️ Disaster Alert System</h2>
-        <form id="alertForm">
-            <textarea name="message" placeholder="Type your alert message here..."></textarea>
-            <br>
-            <button type="submit">🚀 Send Alert</button>
-        </form>
-        <div class="status" id="status"></div>
-    </div>
+  <h2>🚨 Disaster Alert System 🚨</h2>
+  <textarea id="message" placeholder="Enter your disaster alert message here..."></textarea><br>
+  <button onclick="sendAlert()">Send Alert</button>
+  <p id="response"></p>
 
-    <script>
-        document.getElementById("alertForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            let message = e.target.message.value;
-            let res = await fetch("/send_alert", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({message})
-            });
-            let data = await res.json();
-            document.getElementById("status").innerText = data.status === "success" ? "✅ Alert Sent!" : "❌ Error: " + (data.error || "Unknown");
-        });
-    </script>
+  <script>
+    function sendAlert() {
+      let msg = document.getElementById("message").value;
+
+      fetch("/send_alert", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("response").innerText = data.message;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("response").innerText = "❌ Failed to send alert!";
+      });
+    }
+  </script>
 </body>
 </html>
